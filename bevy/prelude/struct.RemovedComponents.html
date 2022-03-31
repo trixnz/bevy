@@ -11,7 +11,9 @@ and stores the data somewhere safe to later cross-reference.</p>
 note that the <code>RemovedComponents</code> list will not be automatically cleared for you,
 and will need to be manually flushed using <a href="../ecs/world/struct.World.html#method.clear_trackers" title="World::clear_trackers"><code>World::clear_trackers</code></a></p>
 <p>For users of <code>bevy</code> itself, this is automatically done in a system added by <code>MinimalPlugins</code>
-or <code>DefaultPlugins</code> at the end of each pass of the game loop.</p>
+or <code>DefaultPlugins</code> at the end of each pass of the game loop during the <code>CoreStage::Last</code>
+stage. As such <code>RemovedComponents</code> systems should be scheduled after the stage where
+removal occurs but before <code>CoreStage::Last</code>.</p>
 <h2 id="examples" class="section-header"><a href="#examples">Examples</a></h2>
 <p>Basic usage:</p>
 
