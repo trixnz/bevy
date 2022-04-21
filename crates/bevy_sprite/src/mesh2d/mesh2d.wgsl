@@ -30,17 +30,17 @@ var<uniform> mesh: Mesh2d;
 fn vertex(vertex: Vertex) -> VertexOutput {
     let world_position = mesh.model * vec4<f32>(vertex.position, 1.0);
 
-    var out: VertexOutput;
-    out.uv = vertex.uv;
-    out.world_position = world_position;
-    out.clip_position = view.view_proj * world_position;
-    out.world_normal = mat3x3<f32>(
+    var vout: VertexOutput;
+    vout.uv = vertex.uv;
+    vout.world_position = world_position;
+    vout.clip_position = view.view_proj * world_position;
+    vout.world_normal = mat3x3<f32>(
         mesh.inverse_transpose_model[0].xyz,
         mesh.inverse_transpose_model[1].xyz,
         mesh.inverse_transpose_model[2].xyz
     ) * vertex.normal;
 #ifdef VERTEX_TANGENTS
-    out.world_tangent = vec4<f32>(
+    vout.world_tangent = vec4<f32>(
         mat3x3<f32>(
             mesh.model[0].xyz,
             mesh.model[1].xyz,
@@ -49,7 +49,7 @@ fn vertex(vertex: Vertex) -> VertexOutput {
         vertex.tangent.w
     );
 #endif
-    return out;
+    return vout;
 }
 
 struct FragmentInput {

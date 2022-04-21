@@ -18,9 +18,9 @@ struct VertexOutput {
 fn vertex(vertex: Vertex) -> VertexOutput {
     let world_position = mesh.model * vec4<f32>(vertex.position, 1.0);
 
-    var out: VertexOutput;
-    out.clip_position = view.view_proj * world_position;
-    return out;
+    var vout: VertexOutput;
+    vout.clip_position = view.view_proj * world_position;
+    return vout;
 }
 
 [[stage(fragment)]]

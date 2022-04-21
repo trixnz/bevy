@@ -34,23 +34,23 @@ var<uniform> joint_matrices: SkinnedMesh;
 
 [[stage(vertex)]]
 fn vertex(vertex: Vertex) -> VertexOutput {
-    var out: VertexOutput;
+    var vout: VertexOutput;
 #ifdef SKINNED
     var model = skin_model(vertex.joint_indices, vertex.joint_weights);
-    out.world_position = model * vec4<f32>(vertex.position, 1.0);
-    out.world_normal = skin_normals(model, vertex.normal);
+    vout.world_position = model * vec4<f32>(vertex.position, 1.0);
+    vout.world_normal = skin_normals(model, vertex.normal);
 #ifdef VERTEX_TANGENTS
-    out.world_tangent = skin_tangents(model, vertex.tangent);
+    vout.world_tangent = skin_tangents(model, vertex.tangent);
 #endif
 #else
-    out.world_position = mesh.model * vec4<f32>(vertex.position, 1.0);
-    out.world_normal = mat3x3<f32>(
+    vout.world_position = mesh.model * vec4<f32>(vertex.position, 1.0);
+    vout.world_normal = mat3x3<f32>(
         mesh.inverse_transpose_model[0].xyz,
         mesh.inverse_transpose_model[1].xyz,
         mesh.inverse_transpose_model[2].xyz
     ) * vertex.normal;
 #ifdef VERTEX_TANGENTS
-    out.world_tangent = vec4<f32>(
+    vout.world_tangent = vec4<f32>(
         mat3x3<f32>(
             mesh.model[0].xyz,
             mesh.model[1].xyz,
@@ -61,9 +61,9 @@ fn vertex(vertex: Vertex) -> VertexOutput {
 #endif
 #endif
 
-    out.uv = vertex.uv;
-    out.clip_position = view.view_proj * out.world_position;
-    return out;
+    vout.uv = vertex.uv;
+    vout.clip_position = view.view_proj * vout.world_position;
+    return vout;
 }
 
 struct FragmentInput {

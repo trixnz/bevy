@@ -1,4 +1,4 @@
-[[group(0), binding(0)]]
+@group(0) @binding(0)
 var texture: texture_storage_2d<rgba8unorm, read_write>;
 
 fn hash(value: u32) -> u32 {
@@ -15,7 +15,7 @@ fn randomFloat(value: u32) -> f32 {
     return f32(hash(value)) / 4294967295.0;
 }
 
-[[stage(compute), workgroup_size(8, 8, 1)]]
+@compute(workgroup_size = (8, 8, 1))
 fn init([[builtin(global_invocation_id)]] invocation_id: vec3<u32>, [[builtin(num_workgroups)]] num_workgroups: vec3<u32>) {
     let location = vec2<i32>(i32(invocation_id.x), i32(invocation_id.y));
     let location_f32 = vec2<f32>(f32(invocation_id.x), f32(invocation_id.y));
@@ -44,7 +44,7 @@ fn count_alive(location: vec2<i32>) -> i32 {
            get(location,  1,  1);
 }
 
-[[stage(compute), workgroup_size(8, 8, 1)]]
+@compute(workgroup_size = (8, 8, 1))
 fn update([[builtin(global_invocation_id)]] invocation_id: vec3<u32>) {
     let location = vec2<i32>(i32(invocation_id.x), i32(invocation_id.y));
 
