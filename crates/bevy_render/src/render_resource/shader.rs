@@ -145,7 +145,11 @@ impl ProcessedShader {
         };
         let module_info = naga::valid::Validator::new(
             naga::valid::ValidationFlags::default(),
-            naga::valid::Capabilities::default(),
+            naga::valid::Capabilities::default() | 
+            naga::valid::Capabilities::PUSH_CONSTANT |
+            naga::valid::Capabilities::SAMPLED_TEXTURE_AND_STORAGE_BUFFER_ARRAY_NON_UNIFORM_INDEXING |
+            naga::valid::Capabilities::UNIFORM_BUFFER_AND_STORAGE_TEXTURE_ARRAY_NON_UNIFORM_INDEXING |
+            naga::valid::Capabilities::SAMPLER_NON_UNIFORM_INDEXING,
         )
         .validate(&module)?;
 
